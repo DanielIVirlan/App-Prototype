@@ -30,11 +30,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		65DCF7232F04BE8200E6D5C1 /* Paper */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Paper;
-			sourceTree = "<group>";
-		};
 		65DCF7312F04BE8200E6D5C1 /* PaperTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PaperTests;
@@ -43,6 +38,11 @@
 		65DCF73B2F04BE8300E6D5C1 /* PaperUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = PaperUITests;
+			sourceTree = "<group>";
+		};
+		65DCF7EC2F04DDC700E6D5C1 /* Paper */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Paper;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +75,9 @@
 		65DCF7182F04BE8200E6D5C1 = {
 			isa = PBXGroup;
 			children = (
-				65DCF7232F04BE8200E6D5C1 /* Paper */,
 				65DCF7312F04BE8200E6D5C1 /* PaperTests */,
 				65DCF73B2F04BE8300E6D5C1 /* PaperUITests */,
+				65DCF7EC2F04DDC700E6D5C1 /* Paper */,
 				65DCF7222F04BE8200E6D5C1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,7 +108,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				65DCF7232F04BE8200E6D5C1 /* Paper */,
+				65DCF7EC2F04DDC700E6D5C1 /* Paper */,
 			);
 			name = Paper;
 			packageProductDependencies = (
@@ -415,7 +415,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Paper/Paper-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -449,7 +449,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Paper/Paper-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
