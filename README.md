@@ -49,7 +49,7 @@ Il modulo mappe è attualmente in modalità **Interattiva Demo**:
 
 ## 🛠 Note Tecniche
 - **Linguaggio**: Swift 6
-- **Framework**: SwiftUI 26.1+
+- **Framework**: SwiftUI 
 - **Target**: iOS 26.1+
 - **Xcode**: 26.1+
 - **Architettura**: Modulare (Organizzata in: `Models`, `Views`, `Resources`).
