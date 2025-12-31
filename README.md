@@ -1,6 +1,6 @@
-# 📱 Paper - The Circular Electronics Ecosystem
+# 📱 Paper - ReuseIT
 
-**Paper** è una piattaforma innovativa sviluppata in **SwiftUI** che mira a rivoluzionare il ciclo di vita dei dispositivi elettronici. L'app integra un marketplace sicuro, sistemi di logistica intelligente (Locker), guide alla riparazione e una sezione dedicata al valore affettivo degli oggetti.
+**ReuseIT** è una piattaforma innovativa sviluppata in **SwiftUI** che mira a rivoluzionare il ciclo di vita dei dispositivi elettronici. L'app integra un marketplace sicuro, sistemi di logistica intelligente (Locker), guide alla riparazione e una sezione dedicata al valore affettivo degli oggetti.
 
 ---
 
@@ -30,7 +30,7 @@ Il cuore dell'app permette di vendere dispositivi scegliendo la modalità di sca
 ### 4. Archivio dei Ricordi
 Una funzione unica per preservare il valore emotivo: prima di vendere un oggetto, l'utente può salvarlo in un **archivio digitale** con foto e descrizioni, mantenendo viva la memoria dell'oggetto anche dopo la cessione.
 
-### 5. Valutazione Istantanea & Sistema "Reusics"
+### 5. Valutazione Istantanea & Sistema "Reuseit"
 - **Valutazione AI**: Inserendo dati e foto, l'utente riceve una quotazione monetaria e un saldo in **Punti Reusics** (punti bonus da utilizzare nell'ecosistema).
 
 ### 6. Profilo & Social Dashboard
