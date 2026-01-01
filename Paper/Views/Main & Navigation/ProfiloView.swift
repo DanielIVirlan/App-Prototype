@@ -1,6 +1,9 @@
 import SwiftUI
 import PhotosUI
 
+import SwiftUI
+import PhotosUI
+
 // MARK: - 1. MODELLI DATI
 struct AnnuncioModel: Identifiable {
     let id = UUID()
@@ -29,95 +32,121 @@ struct ProfiloView: View {
     @State private var passwordVisibile: Bool = false
     @State private var puntiAccumulati: Int = 1100
     
+    // Annunci inizializzati con le immagini dei tuoi Assets
     @State private var mieiAnnunci = [
-        AnnuncioModel(titolo: "iPhone 13 Pro - Usato", prezzo: "550,00", stato: "In attesa",
-                     immagini: [UIImage(systemName: "iphone")!, UIImage(systemName: "box.truck")!]),
-        AnnuncioModel(titolo: "Comodino - Usato", prezzo: "55,00", stato: "In attesa",
-                     immagini: [UIImage(systemName: "bed.double")!, UIImage(systemName: "lamp.table")!]),
-        AnnuncioModel(titolo: "Ipad pro 12 - Usato", prezzo: "1020,00", stato: "In attesa",
-                     immagini: [UIImage(systemName: "ipad")!, UIImage(systemName: "pencil.tip")!])
+        AnnuncioModel(titolo: "iPhone 15 Pro - Grigio",
+                      prezzo: "850,00",
+                      stato: "In attesa",
+                      immagini: [UIImage(named: "iphone_1") ?? UIImage(systemName: "photo")!,
+                                 UIImage(named: "iphone_2") ?? UIImage(systemName: "photo")!]),
+        
+        AnnuncioModel(titolo: "PlayStation 5 - Disco",
+                      prezzo: "400,00",
+                      stato: "Pubblicato",
+                      immagini: [UIImage(named: "ps5_1") ?? UIImage(systemName: "photo")!,
+                                 UIImage(named: "ps5_2") ?? UIImage(systemName: "photo")!]),
+        
+        AnnuncioModel(titolo: "MacBook Air M2",
+                      prezzo: "950,00",
+                      stato: "In attesa",
+                      immagini: [UIImage(named: "mac_1") ?? UIImage(systemName: "photo")!,
+                                 UIImage(named: "mac_2") ?? UIImage(systemName: "photo")!])
     ]
     
+    // --- QUESTA È LA VARIABILE CHE MANCAVA ---
     @State private var valutazioniRicevute: [ValutazioneRicevuta] = [
-        ValutazioneRicevuta(titolo: "MacBook Pro 2021", categoria: "Elettronica", condizione: "Ottimo", descrizione: "Tenuto perfettamente, batteria al 90%", prezzoStimato: "850,00", puntiStimati: 850, immagini: [UIImage(systemName: "laptopcomputer")!]),
-        ValutazioneRicevuta(titolo: "Bicicletta da corsa", categoria: "Sport", condizione: "Buono", descrizione: "Qualche graffio sul telaio, catena nuova", prezzoStimato: "250,00", puntiStimati: 250, immagini: [UIImage(systemName: "bicycle")!])
+        ValutazioneRicevuta(titolo: "MacBook Pro M2",
+                            categoria: "Elettronica",
+                            condizione: "Ottimo",
+                            descrizione: "Tenuto perfettamente, batteria al 90%",
+                            prezzoStimato: "850,00",
+                            puntiStimati: 850,
+                            immagini: [UIImage(named: "mac_1")!]),
+        
+        ValutazioneRicevuta(titolo: "Bicicletta da corsa",
+                            categoria: "Sport",
+                            condizione: "Buono",
+                            descrizione: "Qualche graffio sul telaio, catena nuova",
+                            prezzoStimato: "250,00",
+                            puntiStimati: 250,
+                            immagini: [UIImage(named: "bicycle")!])
     ]
 
     var body: some View {
-        List {
-            Section(header: Text("Attività")) {
-                NavigationLink(destination: MieAnnunciView(annunci: $mieiAnnunci)) {
-                    HStack {
-                        Image(systemName: "megaphone.fill").foregroundColor(.blue)
-                        Text("I miei annunci pubblicati")
+        NavigationStack { // Aggiunto per permettere la navigazione
+            List {
+                Section(header: Text("Attività")) {
+                    NavigationLink(destination: MieAnnunciView(annunci: $mieiAnnunci)) {
+                        HStack {
+                            Image(systemName: "megaphone.fill").foregroundColor(.blue)
+                            Text("I miei annunci pubblicati")
+                        }
+                    }
+                    
+                    NavigationLink(destination: MieiPreventiviSceltiView()) {
+                        HStack {
+                            Image(systemName: "doc.text.badge.checkmark").foregroundColor(.green)
+                            Text("Preventivi scelti")
+                        }
+                    }
+                    
+                    NavigationLink(destination: ListaValutazioniView(valutazioni: valutazioniRicevute)) {
+                        HStack {
+                            Image(systemName: "doc.text.magnifyingglass").foregroundColor(.purple)
+                            Text("Valutazioni ricevute")
+                        }
                     }
                 }
                 
-                NavigationLink(destination: MieiPreventiviSceltiView()) {
+                Section(header: Text("Premi e Fedeltà")) {
                     HStack {
-                        Image(systemName: "doc.text.badge.checkmark").foregroundColor(.green)
-                        Text("Preventivi scelti")
-                    }
-                }
-                
-                NavigationLink(destination: ListaValutazioniView(valutazioni: valutazioniRicevute)) {
-                    HStack {
-                        Image(systemName: "doc.text.magnifyingglass").foregroundColor(.purple)
-                        Text("Valutazioni ricevute")
-                    }
-                }
-            }
-            
-            Section(header: Text("Premi e Fedeltà")) {
-                HStack {
-                    Image(systemName: "star.circle.fill").foregroundColor(.orange)
-                    Text("Saldo punti")
-                    Spacer()
-                    Text("\(puntiAccumulati) pt").fontWeight(.bold).foregroundColor(.secondary)
-                }
-            }
-            
-            Section(header: Text("Informazioni Account")) {
-                HStack {
-                    Text("Username")
-                    Spacer()
-                    Text(username).foregroundColor(.gray)
-                }
-                
-                HStack {
-                    Text("Password")
-                    Spacer()
-                    if passwordVisibile { Text(password).foregroundColor(.gray) }
-                    else { Text("••••••••").foregroundColor(.gray) }
-                    Button(action: { passwordVisibile.toggle() }) {
-                        Image(systemName: passwordVisibile ? "eye.slash.fill" : "eye.fill")
-                            .font(.system(size: 14)).foregroundColor(.blue)
-                    }
-                }
-                
-                // --- TASTO REIMPOSTA PASSWORD ---
-                Button(action: {
-                    // Azione per reimpostare la password to do maybe
-                }) {
-                    Text("Reimposta Password")
-                        .foregroundColor(.blue)
-                }
-            }
-            
-            Section {
-                NavigationLink(destination: LogIN().navigationBarBackButtonHidden(true)) {
-                    HStack {
+                        Image(systemName: "star.circle.fill").foregroundColor(.orange)
+                        Text("Saldo punti")
                         Spacer()
-                        Text("Log Out").fontWeight(.bold).foregroundColor(.red)
+                        Text("\(puntiAccumulati) pt").fontWeight(.bold).foregroundColor(.secondary)
+                    }
+                }
+                
+                Section(header: Text("Informazioni Account")) {
+                    HStack {
+                        Text("Username")
                         Spacer()
+                        Text(username).foregroundColor(.gray)
+                    }
+                    
+                    HStack {
+                        Text("Password")
+                        Spacer()
+                        if passwordVisibile { Text(password).foregroundColor(.gray) }
+                        else { Text("••••••••").foregroundColor(.gray) }
+                        Button(action: { passwordVisibile.toggle() }) {
+                            Image(systemName: passwordVisibile ? "eye.slash.fill" : "eye.fill")
+                                .font(.system(size: 14)).foregroundColor(.blue)
+                        }
+                    }
+                    
+                    Button(action: { }) {
+                        Text("Reimposta Password").foregroundColor(.blue)
+                    }
+                }
+                
+                Section {
+                    // Nota: Assicurati che la View LogIN esista nel tuo progetto
+                    NavigationLink(destination: Text("Schermata Login").navigationBarBackButtonHidden(true)) {
+                        HStack {
+                            Spacer()
+                            Text("Log Out").fontWeight(.bold).foregroundColor(.red)
+                            Spacer()
+                        }
                     }
                 }
             }
+            .navigationTitle("Il mio Profilo")
+            .listStyle(InsetGroupedListStyle())
         }
-        .navigationTitle("Il mio Profilo")
-        .listStyle(InsetGroupedListStyle())
     }
 }
+
 
 // MARK: - 3. VISTA ELENCO ANNUNCI
 struct MieAnnunciView: View {

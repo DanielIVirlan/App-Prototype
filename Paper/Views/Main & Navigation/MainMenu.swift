@@ -29,7 +29,7 @@ struct MainMenu: View {
                         }
                         
                         // --- ACQUISTA ---
-                        NavigationLink(destination: OpzioniAcquisto()){
+                        NavigationLink(destination: AnnunciVenditaView()){
                             MenuButtonView(title: "Acquista", icon: "cart.fill")
                         }
                         

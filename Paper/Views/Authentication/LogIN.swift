@@ -14,7 +14,7 @@ struct LogIN: View {
     @State private var showingAlert: Bool = false
     
     // Credenziali Fisse
-    private let validUsername = "Daniel"
+    private let validUsername = "daniel"
     private let validPassword = "admin"
     
     // MARK: - Corpo della View
