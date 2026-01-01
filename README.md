@@ -11,7 +11,7 @@ Ecco l'app in funzione (Xcode 17 / iOS 18+):
   <tr>
     <td align="center" valign="top">
       <p><b>📱 Demo dell'App</b></p>
-      <video src="https://github.com/user-attachments/assets/8e148fb1-f9ab-4fbd-86c2-80b391ea268d" width="300" controls></video>
+      <video src="" width="300" controls></video>
     </td>
   </tr>
 </table>
