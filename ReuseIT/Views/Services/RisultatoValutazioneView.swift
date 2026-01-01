@@ -12,7 +12,7 @@ struct RisultatoValutazioneView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) { // VStack principale per dividere contenuto e bottoni
+            VStack(spacing: 0) {
                 ScrollView {
                     VStack(spacing: 25) {
                         // Riepilogo Oggetto
@@ -20,17 +20,26 @@ struct RisultatoValutazioneView: View {
                             Text("Riepilogo").font(.caption).bold().foregroundColor(.secondary)
                             HStack(spacing: 15) {
                                 if let img = immagini.first {
-                                    Image(uiImage: img).resizable().scaledToFill().frame(width: 70, height: 70).cornerRadius(12).clipped()
+                                    Image(uiImage: img)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 70, height: 70)
+                                        .cornerRadius(12)
+                                        .clipped()
                                 }
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(titolo).font(.headline)
-                                    Text("\(categoria) • \(condizione)").font(.subheadline).foregroundColor(.secondary)
+                                    Text(titolo)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    Text("\(categoria) • \(condizione)")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
                                 }
                             }
                         }
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.white)
+                        .background(Color(UIColor.secondarySystemGroupedBackground))
                         .cornerRadius(15)
                         
                         // Scheda Valutazione
@@ -43,29 +52,36 @@ struct RisultatoValutazioneView: View {
                             
                             HStack(spacing: 0) {
                                 VStack {
-                                    Text("€45,00").font(.system(size: 34, weight: .black, design: .rounded)).foregroundColor(.blue)
-                                    Text("Valore Cash").font(.caption).foregroundColor(.secondary)
+                                    Text("€45,00")
+                                        .font(.system(size: 34, weight: .black, design: .rounded))
+                                        .foregroundColor(.blue)
+                                    Text("Valore Cash")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
                                 }.frame(maxWidth: .infinity)
                                 
                                 Divider().frame(height: 50)
                                 
                                 VStack {
-                                    Text("450").font(.system(size: 34, weight: .black, design: .rounded)).foregroundColor(.orange)
-                                    Text("Punti Green").font(.caption).foregroundColor(.secondary)
+                                    Text("450")
+                                        .font(.system(size: 34, weight: .black, design: .rounded))
+                                        .foregroundColor(.orange)
+                                    Text("Punti Green")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
                                 }.frame(maxWidth: .infinity)
                             }
                         }
                         .padding(.vertical, 30)
-                        .background(Color.white)
+                        .background(Color(UIColor.secondarySystemGroupedBackground))
                         .cornerRadius(20)
-                        .shadow(color: .black.opacity(0.1), radius: 10)
+                        .shadow(color: Color.black.opacity(colorScheme == .dark ? 0.3 : 0.1), radius: 10)
                     }
                     .padding()
                 }
                 
-                // --- AREA BOTTONI NATIVI IN BASSO ---
+                // --- AREA BOTTONI IN BASSO ---
                 VStack(spacing: 8) {
-                    // Tasto Smaltisci
                     Button(action: { vaiASmaltimento = true }) {
                         HStack {
                             Image(systemName: "trash.fill")
@@ -81,7 +97,6 @@ struct RisultatoValutazioneView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
                     
-                    // Tasto Annulla
                     Button(action: { tornaAlMenu = true }) {
                         Text("Annulla")
                             .foregroundColor(.red)
@@ -89,17 +104,19 @@ struct RisultatoValutazioneView: View {
                             .padding(.vertical, 10)
                     }
                 }
-                .background(Color(red: 0.96, green: 0.97, blue: 0.98)) // Stesso colore dello sfondo
+                .background(Color(UIColor.systemGroupedBackground))
                 .padding(.bottom, 10)
             }
             .navigationTitle("Risultato")
-            .background(Color(red: 0.96, green: 0.97, blue: 0.98).ignoresSafeArea())
+            .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
             .navigationDestination(isPresented: $vaiASmaltimento) {
-                SceltaSmaltimentoView()
-            }
+                            SceltaSmaltimentoView()
+                        }
             .navigationDestination(isPresented: $tornaAlMenu) {
                 MainMenu(username: "Admin")
             }
         }
     }
+    
+    @Environment(\.colorScheme) var colorScheme
 }

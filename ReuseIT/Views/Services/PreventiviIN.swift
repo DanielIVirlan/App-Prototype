@@ -26,12 +26,12 @@ struct PreventivoIN: View {
     
     var body: some View {
         ZStack {
-            Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
+            Color(UIColor.systemGroupedBackground).ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Preventivi per:").font(.caption).foregroundColor(.secondary)
-                        Text(oggetto).font(.title2).bold()
+                        Text(oggetto).font(.title2).bold().foregroundColor(.primary)
                         Text(tipoRiparazione).font(.subheadline).foregroundColor(.blue)
                     }.padding(.horizontal).padding(.top)
                     
@@ -54,9 +54,8 @@ struct SchedaPreventivoView: View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(preventivo.nomeDitta).font(.headline)
+                    Text(preventivo.nomeDitta).font(.headline).foregroundColor(.primary)
                     
-                    // Visualizzazione Indirizzo sotto il nome
                     Text("\(preventivo.via), \(preventivo.civico)")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -67,11 +66,11 @@ struct SchedaPreventivoView: View {
                             Text("\(preventivo.valutazione, specifier: "%.1f")")
                         }
                         HStack(spacing: 2) {
-                            Image(systemName: "location.fill").foregroundColor(.gray)
+                            Image(systemName: "location.fill").foregroundColor(.secondary)
                             Text("\(preventivo.distanza, specifier: "%.1f") km")
                         }
                     }
-                    .font(.caption).fontWeight(.medium).foregroundColor(.gray)
+                    .font(.caption).fontWeight(.medium).foregroundColor(.secondary)
                 }
                 
                 Spacer()
@@ -89,8 +88,8 @@ struct SchedaPreventivoView: View {
                     .background(Color.blue).cornerRadius(8)
             }
         }
-        .padding().background(Color.white).cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 5, x: 0, y: 2)
+        .padding().background(Color(UIColor.secondarySystemGroupedBackground)).cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
         .padding(.horizontal)
     }
 }

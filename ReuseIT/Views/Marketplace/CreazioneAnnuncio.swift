@@ -2,7 +2,6 @@ import PhotosUI
 import SwiftUI
 
 struct CreazioneAnnuncio: View {
-    // --- Variabili per i dati del form ---
     @State private var titolo: String = ""
     @State private var condizioneScelta: String = "Nuovo"
     @State private var categoriaScelta: String = "Elettronica"
@@ -10,39 +9,36 @@ struct CreazioneAnnuncio: View {
     @State private var descrizione: String = ""
     @State private var tipoAnnuncio: String = "Vendita"
     
-    // --- Variabili per le FOTO ---
-    @State private var selectedItems: [PhotosPickerItem] = [] // Elementi selezionati
-    @State private var selectedImages: [UIImage] = [] // Immagini caricate
-    @State private var isUploading: Bool = false // Stato per la ProgressView
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var selectedImages: [UIImage] = []
+    @State private var isUploading: Bool = false
     
-    // Liste per i menu
     let condizioni = ["Nuovo", "Come nuovo", "Buone condizioni", "Usurato"]
     let categorie = ["Elettronica", "Abbigliamento", "Arredamento", "Libri", "Altro"]
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
+                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 25) {
                         Text("Nuovo Annuncio")
                             .font(.system(size: 30, weight: .bold))
+                            .foregroundColor(.primary)
                             .padding(.top)
                             .padding(.horizontal)
                         
-                        // 1. TITOLO
                         Group {
-                            Text("Titolo*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Titolo*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             TextField("Es. iPhone 13 Pro", text: $titolo)
                                 .padding()
-                                .background(Color.white).cornerRadius(12)
+                                .background(Color(UIColor.secondarySystemGroupedBackground)).cornerRadius(12)
                                 .padding(.horizontal)
                         }
                         
-                        // 2. DETTAGLI (Condizione e Categoria)
                         Group {
-                            Text("Dettagli*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Dettagli*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             HStack(spacing: 15) {
                                 Menu {
                                     ForEach(condizioni, id: \.self) { cond in
@@ -50,11 +46,11 @@ struct CreazioneAnnuncio: View {
                                     }
                                 } label: {
                                     HStack {
-                                        Text(condizioneScelta).foregroundColor(.black)
+                                        Text(condizioneScelta).foregroundColor(.primary)
                                         Spacer()
-                                        Image(systemName: "chevron.down").foregroundColor(.gray)
+                                        Image(systemName: "chevron.down").foregroundColor(.secondary)
                                     }
-                                    .padding().background(Color.white).cornerRadius(12)
+                                    .padding().background(Color(UIColor.secondarySystemGroupedBackground)).cornerRadius(12)
                                 }
                                 
                                 Menu {
@@ -63,20 +59,19 @@ struct CreazioneAnnuncio: View {
                                     }
                                 } label: {
                                     HStack {
-                                        Text(categoriaScelta).foregroundColor(.black)
+                                        Text(categoriaScelta).foregroundColor(.primary)
                                         Spacer()
-                                        Image(systemName: "chevron.down").foregroundColor(.gray)
+                                        Image(systemName: "chevron.down").foregroundColor(.secondary)
                                     }
-                                    .padding().background(Color.white).cornerRadius(12)
+                                    .padding().background(Color(UIColor.secondarySystemGroupedBackground)).cornerRadius(12)
                                 }
                             }
                             .padding(.horizontal)
                         }
                         
-                        // 3. AGGIUNGI FOTO (MULTIPLE)
                         Group {
                             HStack {
-                                Text("Foto (\(selectedImages.count)/10)").fontWeight(.semibold)
+                                Text("Foto (\(selectedImages.count)/10)").fontWeight(.semibold).foregroundColor(.primary)
                                 if isUploading {
                                     ProgressView()
                                         .padding(.leading, 5)
@@ -85,7 +80,6 @@ struct CreazioneAnnuncio: View {
                             .padding(.horizontal)
                             
                             if selectedImages.isEmpty {
-                                // Stato Vuoto: Bottone grande
                                 PhotosPicker(selection: $selectedItems, maxSelectionCount: 10, matching: .images) {
                                     VStack(spacing: 12) {
                                         Image(systemName: "camera.fill")
@@ -93,21 +87,20 @@ struct CreazioneAnnuncio: View {
                                             .foregroundColor(.blue)
                                         Text("Tocca per caricare fino a 10 foto")
                                             .font(.subheadline)
-                                            .foregroundColor(.gray)
+                                            .foregroundColor(.secondary)
                                     }
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 150)
-                                    .background(Color.white)
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
                                     .cornerRadius(15)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 15)
                                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                                            .foregroundColor(.gray.opacity(0.5))
+                                            .foregroundColor(.secondary.opacity(0.5))
                                     )
                                     .padding(.horizontal)
                                 }
                             } else {
-                                // Galleria Orizzontale con foto selezionate
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 15) {
                                         ForEach(0 ..< selectedImages.count, id: \.self) { index in
@@ -118,7 +111,6 @@ struct CreazioneAnnuncio: View {
                                                     .frame(width: 120, height: 120)
                                                     .clipShape(RoundedRectangle(cornerRadius: 12))
                                                 
-                                                // Tasto X per rimuovere
                                                 Button(action: {
                                                     removeImage(at: index)
                                                 }) {
@@ -131,7 +123,6 @@ struct CreazioneAnnuncio: View {
                                             }
                                         }
                                         
-                                        // Bottone "Aggiungi altre" se < 10
                                         if selectedImages.count < 10 {
                                             PhotosPicker(selection: $selectedItems, maxSelectionCount: 10, matching: .images) {
                                                 VStack {
@@ -141,7 +132,7 @@ struct CreazioneAnnuncio: View {
                                                         .font(.caption)
                                                 }
                                                 .frame(width: 120, height: 120)
-                                                .background(Color.white)
+                                                .background(Color(UIColor.secondarySystemGroupedBackground))
                                                 .foregroundColor(.blue)
                                                 .cornerRadius(12)
                                                 .overlay(
@@ -160,19 +151,18 @@ struct CreazioneAnnuncio: View {
                             loadSelectedImages()
                         }
                         
-                        // 4. TIPO ANNUNCIO
                         Group {
-                            Text("Tipo annuncio*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Tipo annuncio*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             HStack(spacing: 0) {
                                 Button(action: { withAnimation { tipoAnnuncio = "Vendita" } }) {
                                     Text("Vendita").fontWeight(.bold).frame(maxWidth: .infinity).padding()
-                                        .background(tipoAnnuncio == "Vendita" ? Color.blue : Color.white)
-                                        .foregroundColor(tipoAnnuncio == "Vendita" ? .white : .black)
+                                        .background(tipoAnnuncio == "Vendita" ? Color.blue : Color(UIColor.secondarySystemGroupedBackground))
+                                        .foregroundColor(tipoAnnuncio == "Vendita" ? .white : .primary)
                                 }
                                 Button(action: { withAnimation { tipoAnnuncio = "Regalo" } }) {
                                     Text("Regalo").fontWeight(.bold).frame(maxWidth: .infinity).padding()
-                                        .background(tipoAnnuncio == "Regalo" ? Color.blue : Color.white)
-                                        .foregroundColor(tipoAnnuncio == "Regalo" ? .white : .black)
+                                        .background(tipoAnnuncio == "Regalo" ? Color.blue : Color(UIColor.secondarySystemGroupedBackground))
+                                        .foregroundColor(tipoAnnuncio == "Regalo" ? .white : .primary)
                                 }
                             }
                             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -180,20 +170,21 @@ struct CreazioneAnnuncio: View {
                             .padding(.horizontal)
                         }
                         
-                        // 5. COMUNE
                         Group {
-                            Text("Comune*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Comune*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             TextField("Es. Milano, Roma...", text: $comune)
-                                .padding().background(Color.white).cornerRadius(12).padding(.horizontal)
+                                .padding().background(Color(UIColor.secondarySystemGroupedBackground)).cornerRadius(12).padding(.horizontal)
                         }
                         
-                        // 6. DESCRIZIONE
                         Group {
-                            Text("Descrizione").fontWeight(.semibold).padding(.horizontal)
+                            Text("Descrizione").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             TextEditor(text: $descrizione)
                                 .frame(height: 100)
                                 .padding(5)
-                                .background(Color.white).cornerRadius(12).padding(.horizontal)
+                                .scrollContentBackground(.hidden) // Importante per vedere lo sfondo personalizzato
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+                                .cornerRadius(12)
+                                .padding(.horizontal)
                         }
                         
                         Spacer(minLength: 40)
@@ -214,7 +205,6 @@ struct CreazioneAnnuncio: View {
         }
     }
     
-    // --- Logica per caricare le immagini ---
     private func loadSelectedImages() {
         isUploading = true
         Task {
@@ -233,7 +223,6 @@ struct CreazioneAnnuncio: View {
         }
     }
     
-    // --- Logica per rimuovere un'immagine ---
     private func removeImage(at index: Int) {
         selectedImages.remove(at: index)
         selectedItems.remove(at: index)

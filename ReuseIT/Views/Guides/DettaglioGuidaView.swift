@@ -43,7 +43,7 @@ struct DettaglioGuidaView: View {
                                     }
                                     HStack(spacing: 4) {
                                         Image(systemName: "hand.thumbsdown.fill")
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.secondary)
                                         Text("\(guida.votiNegativi)")
                                     }
                                 }
@@ -64,10 +64,12 @@ struct DettaglioGuidaView: View {
                     Text(guida.descrizioneProcedimento)
                         .font(.body)
                         .padding(.vertical, 5)
+                        .foregroundColor(.primary) // Assicura visibilità in Dark Mode
                 }
             }
             .listStyle(.insetGrouped)
             
+            // Area Bottone Inferiore
             VStack {
                 Button(action: {
                     if let url = URL(string: guida.videoUrl) {
@@ -94,18 +96,16 @@ struct DettaglioGuidaView: View {
 }
 
 // MARK: - PREVIEW
-
 #Preview {
-    NavigationView {
+    NavigationStack {
         DettaglioGuidaView(
             guida: Guida(
                 nomeAutore: "Daniel",
                 bioEsperienza: "Esperto riparatore con oltre 500 interventi documentati su dispositivi iOS.",
                 descrizioneProcedimento: "Spegni il dispositivo. Riscalda i bordi per 3 minuti. Usa la ventosa per sollevare lo schermo delicatamente...",
-                
                 votiPositivi: 120,
                 votiNegativi: 2,
-                videoUrl: "https://www.apple.com",
+                videoUrl: "https://www.youtube.com",
                 tempoStimato: "45 min",
                 difficolta: "Alta"
             ),

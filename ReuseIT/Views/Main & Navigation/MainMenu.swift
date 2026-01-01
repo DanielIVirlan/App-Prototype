@@ -75,13 +75,13 @@ struct MenuButtonView: View {
             
             Text(title)
                 .font(.headline)
-                .foregroundColor(.primary)
+                .foregroundColor(.primary) 
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, minHeight: 140)
-        .background(Color.white)
+        .background(Color(UIColor.secondarySystemGroupedBackground))
         .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 

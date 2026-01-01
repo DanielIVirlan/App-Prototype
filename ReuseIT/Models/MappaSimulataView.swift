@@ -19,35 +19,60 @@ struct MappaSimulataView: View {
     
     var body: some View {
         ZStack {
-            Image("mappa").resizable().scaledToFill().ignoresSafeArea()
+            Image("mappa")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
             
             GeometryReader { geometry in
                 ForEach(0 ..< fixedLocations.count, id: \.self) { index in
                     let loc = fixedLocations[index]
                     
                     ZStack {
+                        // Bolla informativa sopra il PIN
                         if selectedIndex == index {
                             HStack(spacing: 10) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    Text(option == .locker ? "Locker \(index + 1)" : "Zona Sicura \(index + 1)").font(.caption).bold()
-                                    Text(indirizzi[index]).font(.system(size: 10)).foregroundColor(.gray)
+                                    Text(option == .locker ? "Locker \(index + 1)" : "Zona Sicura \(index + 1)")
+                                        .font(.caption)
+                                        .bold()
+                                        .foregroundColor(.primary)
+                                    Text(indirizzi[index])
+                                        .font(.system(size: 10))
+                                        .foregroundColor(.secondary)
                                 }
-                                Image(systemName: "checkmark.circle.fill").foregroundColor(.blue)
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.blue)
                             }
-                            .padding(10).background(Color.white).cornerRadius(12).shadow(radius: 5).offset(y: -75)
+                            .padding(10)
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
+                            .cornerRadius(12)
+                            .shadow(radius: 5)
+                            .offset(y: -75)
                         }
                         
+                        // Icona PIN (Locker o Safe Zone)
                         VStack(spacing: 5) {
                             Image(systemName: option == .locker ? "cube.box.fill" : "shield.checkerboard")
-                                .resizable().scaledToFit().frame(width: 32, height: 32)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 32, height: 32)
                                 .foregroundColor(selectedIndex == index ? .white : (option == .locker ? .blue : .green))
-                                .padding(8).background(Circle().fill(selectedIndex == index ? Color.blue : Color.white).shadow(radius: 4))
+                                .padding(8)
+                                .background(
+                                    Circle()
+                                        .fill(selectedIndex == index ? Color.blue : Color(UIColor.secondarySystemGroupedBackground))
+                                        .shadow(radius: 4)
+                                )
                             
                             Text(option == .locker ? "Locker \(index + 1)" : "Zona \(index + 1)")
-                                .font(.caption2).fontWeight(.bold)
-                                .padding(.horizontal, 8).padding(.vertical, 4)
-                                .background(selectedIndex == index ? Color.blue : Color.white.opacity(0.95))
-                                .foregroundColor(selectedIndex == index ? .white : .black).cornerRadius(6)
+                                .font(.caption2)
+                                .fontWeight(.bold)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(selectedIndex == index ? Color.blue : Color(UIColor.secondarySystemGroupedBackground).opacity(0.95))
+                                .foregroundColor(selectedIndex == index ? .white : .primary)
+                                .cornerRadius(6)
                         }
                         .scaleEffect(selectedIndex == index ? 1.15 : 1.0)
                         .onTapGesture {
@@ -66,13 +91,17 @@ struct MappaSimulataView: View {
                 Spacer()
                 Button(action: { if selectedIndex != nil { dismiss() } }) {
                     Text(selectedIndex != nil ? "Conferma posizione" : "Seleziona un punto")
-                        .font(.headline).bold().foregroundColor(.white)
-                        .frame(maxWidth: .infinity).frame(height: 55)
+                        .font(.headline)
+                        .bold()
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 55)
                         .background(selectedIndex != nil ? Color.blue : Color.gray.opacity(0.6))
                         .cornerRadius(28)
                 }
                 .disabled(selectedIndex == nil)
-                .padding(.horizontal, 40).padding(.bottom, 50)
+                .padding(.horizontal, 40)
+                .padding(.bottom, 50)
             }
         }
         .ignoresSafeArea()

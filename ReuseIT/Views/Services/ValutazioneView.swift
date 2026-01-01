@@ -19,26 +19,41 @@ struct ValutazioneView: View {
                 Form {
                     Section("Dati Oggetto") {
                         TextField("Titolo", text: $titolo)
+                            .foregroundColor(.primary)
+                        
                         Picker("Categoria", selection: $categoria) {
                             ForEach(categorie, id: \.self) { Text($0) }
                         }
+                        
                         Picker("Condizioni", selection: $condizione) {
                             ForEach(condizioni, id: \.self) { Text($0) }
                         }
+                        
                         TextEditor(text: $descrizione)
                             .frame(height: 100)
+                            .scrollContentBackground(.hidden) // Rende visibile il colore sottostante in Dark Mode
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
                     }
                     
                     Section("Foto (\(immaginiSelezionate.count)/10)") {
                         if immaginiSelezionate.isEmpty {
                             PhotosPicker(selection: $selectedItems, maxSelectionCount: 10, matching: .images) {
                                 VStack(spacing: 12) {
-                                    Image(systemName: "camera.fill").font(.largeTitle).foregroundColor(.blue)
-                                    Text("Tocca per caricare fino a 10 foto").font(.subheadline).foregroundColor(.gray)
+                                    Image(systemName: "camera.fill")
+                                        .font(.largeTitle)
+                                        .foregroundColor(.blue)
+                                    Text("Tocca per caricare fino a 10 foto")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
                                 }
                                 .frame(maxWidth: .infinity).frame(height: 150)
-                                .background(Color.white).cornerRadius(15)
-                                .overlay(RoundedRectangle(cornerRadius: 15).stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundColor(.gray.opacity(0.5)))
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
+                                        .foregroundColor(.secondary.opacity(0.3))
+                                )
                             }
                         } else {
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -46,28 +61,36 @@ struct ValutazioneView: View {
                                     ForEach(0 ..< immaginiSelezionate.count, id: \.self) { index in
                                         ZStack(alignment: .topTrailing) {
                                             Image(uiImage: immaginiSelezionate[index])
-                                                .resizable().scaledToFill()
-                                                .frame(width: 120, height: 120).clipShape(RoundedRectangle(cornerRadius: 12))
+                                                .resizable()
+                                                .scaledToFill()
+                                                .frame(width: 120, height: 120)
+                                                .clipShape(RoundedRectangle(cornerRadius: 12))
                                             
                                             Button(action: { immaginiSelezionate.remove(at: index) }) {
                                                 Image(systemName: "xmark.circle.fill")
-                                                    .foregroundStyle(.white, .red).font(.title2)
+                                                    .foregroundStyle(.white, .red)
+                                                    .font(.title2)
                                                     .background(Circle().fill(.white).frame(width: 15, height: 15))
-                                            }.padding(5)
+                                            }
+                                            .padding(5)
                                         }
                                     }
                                     
                                     if immaginiSelezionate.count < 10 {
                                         PhotosPicker(selection: $selectedItems, maxSelectionCount: 10 - immaginiSelezionate.count, matching: .images) {
-                                            VStack {
-                                                Image(systemName: "plus").font(.title)
-                                                Text("Aggiungi").font(.caption)
+                                            VStack(spacing: 5) {
+                                                Image(systemName: "plus").font(.title2).bold()
+                                                Text("Aggiungi").font(.system(size: 12, weight: .semibold))
                                             }
-                                            .frame(width: 120, height: 120)
-                                            .background(Color.white)
                                             .foregroundColor(.blue)
+                                            .frame(width: 120, height: 120)
+                                            .background(Color(UIColor.secondarySystemGroupedBackground))
                                             .cornerRadius(12)
-                                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 1, dash: [3])).foregroundColor(.blue))
+                                            .overlay(
+                                                RoundedRectangle(cornerRadius: 12)
+                                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [4]))
+                                                    .foregroundColor(.blue.opacity(0.5))
+                                            )
                                         }
                                     }
                                 }
@@ -75,28 +98,35 @@ struct ValutazioneView: View {
                         }
                     }
                 }
-                .onChange(of: selectedItems) { caricaImmagini() }
+                .onChange(of: selectedItems) { oldValue, newValue in
+                    caricaImmagini()
+                }
                 
-                // Tasto in basso
+                // Area pulsante inferiore
                 VStack {
                     Button(action: { vaiARisultato = true }) {
-                        Text("RICEVI VALUTAZIONE").font(.headline).foregroundColor(.white)
-                            .frame(maxWidth: .infinity).frame(height: 55)
-                            .background(titolo.isEmpty || immaginiSelezionate.isEmpty ? Color.gray : Color.blue).cornerRadius(12)
+                        Text("RICEVI VALUTAZIONE")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 55)
+                            .background(titolo.isEmpty || immaginiSelezionate.isEmpty ? Color.gray.opacity(0.5) : Color.blue)
+                            .cornerRadius(12)
                     }
                     .disabled(titolo.isEmpty || immaginiSelezionate.isEmpty)
-                    .padding(.horizontal, 20).padding(.vertical, 10)
-                }.background(Color(UIColor.systemGroupedBackground))
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                }
+                .background(Color(UIColor.systemGroupedBackground))
             }
             .navigationTitle("Valuta Oggetto")
-            // NAVIGAZIONE: Collega il tasto alla vista Risultato
             .navigationDestination(isPresented: $vaiARisultato) {
-                RisultatoValutazioneView(
-                    titolo: titolo,
-                    categoria: categoria,
-                    condizione: condizione,
-                    immagini: immaginiSelezionate
-                )
+                            RisultatoValutazioneView(
+                                titolo: titolo,
+                                categoria: categoria,
+                                condizione: condizione,
+                                immagini: immaginiSelezionate
+                            )
             }
         }
     }

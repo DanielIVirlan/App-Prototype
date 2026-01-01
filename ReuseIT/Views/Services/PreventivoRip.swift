@@ -28,25 +28,24 @@ struct PreventivoRip: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
+                Color(UIColor.systemGroupedBackground).ignoresSafeArea()
                 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Preventivo Riparazione")
                                 .font(.largeTitle).bold()
+                                .foregroundColor(.primary)
                             Text("Inserisci i dettagli per ricevere una stima dai nostri tecnici.")
-                                .font(.subheadline).foregroundColor(.gray)
+                                .font(.subheadline).foregroundColor(.secondary)
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
                         
-                        // 1. NOME OGGETTO
                         customTextField(title: "Nome Oggetto*", placeholder: "Es. MacBook Pro, Giacca North Face", text: $nomeOggetto)
                         
-                        // 2. TIPOLOGIA
                         VStack(alignment: .leading) {
-                            Text("Tipologia*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Tipologia*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             pickerMenu(selection: $tipologiaScelta, options: tipologie)
                                 .onChange(of: tipologiaScelta) {
                                     tipoRiparazioneScelta = "Seleziona tipo"
@@ -54,37 +53,32 @@ struct PreventivoRip: View {
                                 }
                         }
                         
-                        // 3. MODELLO (Solo per Telefonia o Computer)
                         if tipologiaScelta == "Telefonia" || tipologiaScelta == "Computer" {
                             customTextField(title: "Modello*", placeholder: "Es. iPhone 15 o Dell XPS 13", text: $modello)
                         }
                         
-                        // 4. TIPO RIPARAZIONE
                         VStack(alignment: .leading) {
-                            Text("Tipo di Riparazione*").fontWeight(.semibold).padding(.horizontal)
+                            Text("Tipo di Riparazione*").fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
                             pickerMenu(selection: $tipoRiparazioneScelta, options: opzioniRiparazione[tipologiaScelta] ?? ["Altro"])
                         }
                         
-                        // 4b. CAMPO DINAMICO PER "ALTRO"
                         if tipoRiparazioneScelta == "Altro" {
                             VStack(alignment: .leading) {
                                 Text("Specifica il problema*").font(.caption).fontWeight(.medium).padding(.horizontal).foregroundColor(.blue)
                                 TextField("Descrivi brevemente il problema...", text: $altraRiparazioneSpecifica)
                                     .padding()
-                                    .background(Color.white)
+                                    .background(Color(UIColor.secondarySystemGroupedBackground))
                                     .cornerRadius(12)
                                     .padding(.horizontal)
                             }
                         }
                         
-                        // 5. SEZIONE FOTO AGGIORNATA
                         fotoSection
                         
                         Spacer(minLength: 30)
                         
-                        // 6. TASTO CONTINUA
                         NavigationLink(destination: PreventivoIN(oggetto: nomeOggetto,
-                                                                 tipoRiparazione: tipoRiparazioneScelta == "Altro" ? altraRiparazioneSpecifica : tipoRiparazioneScelta))
+                                                    tipoRiparazione: tipoRiparazioneScelta == "Altro" ? altraRiparazioneSpecifica : tipoRiparazioneScelta))
                         {
                             Text("CONTINUA")
                                 .font(.headline).foregroundColor(.white)
@@ -107,12 +101,15 @@ struct PreventivoRip: View {
         }
     }
     
-    // --- Helper UI ---
+    // --- Helper UI Aggiornati per Dark Mode ---
     private func customTextField(title: String, placeholder: String, text: Binding<String>) -> some View {
         VStack(alignment: .leading) {
-            Text(title).fontWeight(.semibold).padding(.horizontal)
+            Text(title).fontWeight(.semibold).padding(.horizontal).foregroundColor(.primary)
             TextField(placeholder, text: text)
-                .padding().background(Color.white).cornerRadius(12).padding(.horizontal)
+                .padding()
+                .background(Color(UIColor.secondarySystemGroupedBackground))
+                .cornerRadius(12)
+                .padding(.horizontal)
         }
     }
     
@@ -123,24 +120,26 @@ struct PreventivoRip: View {
             }
         } label: {
             HStack {
-                Text(selection.wrappedValue).foregroundColor(.black)
+                Text(selection.wrappedValue).foregroundColor(.primary)
                 Spacer()
-                Image(systemName: "chevron.down").foregroundColor(.gray)
+                Image(systemName: "chevron.down").foregroundColor(.secondary)
             }
-            .padding().background(Color.white).cornerRadius(12).padding(.horizontal)
+            .padding()
+            .background(Color(UIColor.secondarySystemGroupedBackground))
+            .cornerRadius(12)
+            .padding(.horizontal)
         }
     }
     
     private var fotoSection: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Text("Foto (\(selectedImages.count)/10)").fontWeight(.semibold)
+                Text("Foto (\(selectedImages.count)/10)").fontWeight(.semibold).foregroundColor(.primary)
                 if isUploading { ProgressView().padding(.leading, 5) }
             }
             .padding(.horizontal)
             
             if selectedImages.isEmpty {
-                // Stato Vuoto: Bottone Grande con bordo tratteggiato
                 PhotosPicker(selection: $selectedItems, maxSelectionCount: 10, matching: .images) {
                     VStack(spacing: 12) {
                         Image(systemName: "camera.fill")
@@ -148,21 +147,20 @@ struct PreventivoRip: View {
                             .foregroundColor(.blue)
                         Text("Tocca per caricare fino a 10 foto")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: 150)
-                    .background(Color.white)
+                    .background(Color(UIColor.secondarySystemGroupedBackground))
                     .cornerRadius(15)
                     .overlay(
                         RoundedRectangle(cornerRadius: 15)
                             .stroke(style: StrokeStyle(lineWidth: 2, dash: [5]))
-                            .foregroundColor(.gray.opacity(0.5))
+                            .foregroundColor(.secondary.opacity(0.3))
                     )
                     .padding(.horizontal)
                 }
             } else {
-                // Galleria Orizzontale
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 15) {
                         ForEach(0 ..< selectedImages.count, id: \.self) { index in
@@ -183,19 +181,15 @@ struct PreventivoRip: View {
                             }
                         }
                         
-                        // TASTO AGGIUNGI (+) stile CreazioneAnnuncio
                         if selectedImages.count < 10 {
                             PhotosPicker(selection: $selectedItems, maxSelectionCount: 10 - selectedImages.count, matching: .images) {
                                 VStack(spacing: 5) {
-                                    Image(systemName: "plus")
-                                        .font(.title2)
-                                        .bold()
-                                    Text("Aggiungi")
-                                        .font(.system(size: 12, weight: .semibold))
+                                    Image(systemName: "plus").font(.title2).bold()
+                                    Text("Aggiungi").font(.system(size: 12, weight: .semibold))
                                 }
                                 .foregroundColor(.blue)
                                 .frame(width: 120, height: 120)
-                                .background(Color.white)
+                                .background(Color(UIColor.secondarySystemGroupedBackground))
                                 .cornerRadius(12)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
@@ -223,7 +217,7 @@ struct PreventivoRip: View {
             }
             await MainActor.run {
                 selectedImages.append(contentsOf: loaded)
-                selectedItems.removeAll() // Svuotiamo il picker per nuove selezioni
+                selectedItems.removeAll()
                 isUploading = false
             }
         }
@@ -237,7 +231,6 @@ struct PreventivoRip: View {
         let baseValid = !nomeOggetto.isEmpty && tipoRiparazioneScelta != "Seleziona tipo"
         let altroValid = (tipoRiparazioneScelta == "Altro") ? !altraRiparazioneSpecifica.isEmpty : true
         let modelloValid = (tipologiaScelta == "Telefonia" || tipologiaScelta == "Computer") ? !modello.isEmpty : true
-        // Validiamo anche la presenza di almeno una foto
         return baseValid && altroValid && modelloValid && !selectedImages.isEmpty
     }
 }

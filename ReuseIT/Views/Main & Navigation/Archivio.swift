@@ -5,7 +5,7 @@ struct Ricordo: Identifiable {
     let id = UUID()
     var nome: String
     var descrizione: String
-    var immagini: [UIImage] // Array per gestire più foto
+    var immagini: [UIImage]
 }
 
 struct Archivio: View {
@@ -19,9 +19,10 @@ struct Archivio: View {
                 
                 if ricordi.isEmpty {
                     VStack(spacing: 20) {
-                        Image(systemName: "archivebox").font(.system(size: 60)).foregroundColor(.gray)
+                        Image(systemName: "archivebox").font(.system(size: 60)).foregroundColor(.secondary)
                         Text("Il tuo archivio è vuoto").foregroundColor(.secondary)
                         Button("Aggiungi il primo ricordo") { mostraAggiungi = true }
+                            .buttonStyle(.borderedProminent)
                     }
                 } else {
                     List {
@@ -38,7 +39,7 @@ struct Archivio: View {
                                     }
                                     
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text(ricordo.nome).font(.headline)
+                                        Text(ricordo.nome).font(.headline).foregroundColor(.primary)
                                         Text(ricordo.descrizione)
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -77,7 +78,6 @@ struct DettaglioRicordoView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Carosello orizzontale di foto
                 if !ricordo.immagini.isEmpty {
                     GeometryReader { proxy in
                         let width = proxy.size.width
@@ -100,6 +100,7 @@ struct DettaglioRicordoView: View {
                     Text(ricordo.nome)
                         .font(.largeTitle)
                         .bold()
+                        .foregroundColor(.primary)
                     
                     Text("Perché è importante")
                         .font(.headline)
@@ -112,6 +113,7 @@ struct DettaglioRicordoView: View {
                 .padding()
             }
         }
+        .background(Color(UIColor.systemBackground))
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -129,7 +131,10 @@ struct FormInserimentoView: View {
             Form {
                 Section("Dettagli") {
                     TextField("Nome oggetto", text: $nome)
-                    TextEditor(text: $descrizione).frame(height: 100)
+                    TextEditor(text: $descrizione)
+                        .frame(height: 100)
+                        .scrollContentBackground(.hidden)
+                        .background(Color(UIColor.secondarySystemGroupedBackground))
                 }
                 
                 Section("Foto (\(immaginiSelezionate.count)/10)") {
@@ -137,11 +142,12 @@ struct FormInserimentoView: View {
                         PhotosPicker(selection: $selectedItems, maxSelectionCount: 10, matching: .images) {
                             VStack(spacing: 12) {
                                 Image(systemName: "camera.fill").font(.largeTitle).foregroundColor(.blue)
-                                Text("Carica fino a 10 foto").font(.subheadline).foregroundColor(.gray)
+                                Text("Carica fino a 10 foto").font(.subheadline).foregroundColor(.secondary)
                             }
                             .frame(maxWidth: .infinity).frame(height: 140)
-                            .background(Color.white).cornerRadius(15)
-                            .overlay(RoundedRectangle(cornerRadius: 15).stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundColor(.gray.opacity(0.5)))
+                            .background(Color(UIColor.secondarySystemGroupedBackground))
+                            .cornerRadius(15)
+                            .overlay(RoundedRectangle(cornerRadius: 15).stroke(style: StrokeStyle(lineWidth: 2, dash: [5])).foregroundColor(.secondary.opacity(0.3)))
                         }
                     } else {
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -160,7 +166,6 @@ struct FormInserimentoView: View {
                                     }
                                 }
                                 
-                                // IL TASTO AGGIUNGI IDENTICO A CREAZIONE ANNUNCIO
                                 if immaginiSelezionate.count < 10 {
                                     PhotosPicker(selection: $selectedItems, maxSelectionCount: 10 - immaginiSelezionate.count, matching: .images) {
                                         VStack {
@@ -168,7 +173,8 @@ struct FormInserimentoView: View {
                                             Text("Aggiungi").font(.caption2)
                                         }
                                         .frame(width: 100, height: 100)
-                                        .background(Color.white).foregroundColor(.blue).cornerRadius(12)
+                                        .background(Color(UIColor.secondarySystemGroupedBackground))
+                                        .foregroundColor(.blue).cornerRadius(12)
                                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(style: StrokeStyle(lineWidth: 1, dash: [3])).foregroundColor(.blue))
                                     }
                                 }
@@ -186,6 +192,9 @@ struct FormInserimentoView: View {
                         ricordi.append(nuovo)
                         dismiss()
                     }.disabled(nome.isEmpty || immaginiSelezionate.isEmpty)
+                }
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Annulla") { dismiss() }
                 }
             }
         }

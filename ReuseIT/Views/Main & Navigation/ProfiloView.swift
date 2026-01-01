@@ -339,35 +339,76 @@ struct ListaValutazioniView: View {
     }
 }
 
+
 struct DettaglioValutazioneView: View {
     let valutazione: ValutazioneRicevuta
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 25) {
+                // Galleria immagini
                 if !valutazione.immagini.isEmpty {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 12) {
                             ForEach(valutazione.immagini, id: \.self) { img in
-                                Image(uiImage: img).resizable().scaledToFill().frame(width: 280, height: 200).cornerRadius(15).clipped()
+                                Image(uiImage: img)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 280, height: 200)
+                                    .cornerRadius(15)
+                                    .clipped()
                             }
-                        }.padding(.horizontal)
+                        }
+                        .padding(.horizontal)
                     }
                 }
+                
                 VStack(alignment: .leading, spacing: 20) {
-                    Text(valutazione.titolo).font(.system(size: 28, weight: .bold))
-                    HStack {
+                    // Titolo adattivo
+                    Text(valutazione.titolo)
+                        .font(.system(size: 28, weight: .bold))
+                        .foregroundColor(.primary)
+                    
+                    // Box Valutazione
+                    HStack(spacing: 15) {
                         VStack {
-                            Text("STIMA CASH").font(.caption).bold()
-                            Text("€\(valutazione.prezzoStimato)").font(.title2).bold().foregroundColor(.blue)
-                        }.frame(maxWidth: .infinity).padding().background(Color.white).cornerRadius(15)
+                            Text("STIMA CASH")
+                                .font(.caption)
+                                .bold()
+                                .foregroundColor(.secondary)
+                            Text("€\(valutazione.prezzoStimato)")
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.blue)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(UIColor.secondarySystemGroupedBackground))
+                        .cornerRadius(15)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5)
+                        
                         VStack {
-                            Text("PUNTI GREEN").font(.caption).bold()
-                            Text("\(valutazione.puntiStimati)").font(.title2).bold().foregroundColor(.orange)
-                        }.frame(maxWidth: .infinity).padding().background(Color.white).cornerRadius(15)
+                            Text("PUNTI GREEN")
+                                .font(.caption)
+                                .bold()
+                                .foregroundColor(.secondary)
+                            Text("\(valutazione.puntiStimati)")
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.orange)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color(UIColor.secondarySystemGroupedBackground))
+                        .cornerRadius(15)
+                        .shadow(color: Color.black.opacity(0.05), radius: 5)
                     }
-                }.padding(.horizontal)
+                }
+                .padding(.horizontal)
             }
-        }.background(Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea())
+            .padding(.top)
+        }
+        .background(Color(UIColor.systemGroupedBackground).ignoresSafeArea())
     }
 }
 
