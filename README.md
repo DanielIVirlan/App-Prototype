@@ -10,11 +10,11 @@ Ecco l'app in funzione (Xcode 17 / iOS 18+):
 <table>
   <tr>
     <td>
-      <p align="left"><b>Demo Parte 1</b></p>
+      <p align="center"><b>Demo Parte 1</b></p>
       <img src="https://github.com/user-attachments/assets/8e148fb1-f9ab-4fbd-86c2-80b391ea268d" width="100%" />
     </td>
     <td>
-      <p align="right"><b>Demo Parte 2</b></p>
+      <p align="center"><b>Demo Parte 2</b></p>
       <img src="https://github.com/user-attachments/assets/bb8308ef-a6a5-4390-9a8d-fc39c105ba8f" width="100%" />
     </td>
   </tr>
