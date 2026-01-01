@@ -1,4 +1,4 @@
-# 📱 Paper - ReuseIT
+# 📱 ReuseIT
 
 **ReuseIT** è una piattaforma innovativa sviluppata in **SwiftUI** che mira a rivoluzionare il ciclo di vita dei dispositivi elettronici. L'app integra un marketplace sicuro, sistemi di logistica intelligente (Locker), guide alla riparazione e una sezione dedicata al valore affettivo degli oggetti.
 
