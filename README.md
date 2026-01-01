@@ -9,18 +9,20 @@ Ecco l'app in funzione (Xcode 17 / iOS 18+):
 
 <table width="100%">
   <tr>
-    <td width="50%" align="center" valign="top">
+    <td width="33%" align="center" valign="top">
       <p><b>📱 Demo Parte 1</b></p>
-      <video src="https://github.com/user-attachments/assets/8e148fb1-f9ab-4fbd-86c2-80b391ea268d" width="100%" controls></video>
+      <video src="https://github.com/user-attachments/assets/3390e263-ec92-4e46-8c50-0b360d95c313" width="100%" controls></video>
     </td>
-    <td width="50%" align="center" valign="top">
+    <td width="33%" align="center" valign="top">
       <p><b>📱 Demo Parte 2</b></p>
-      <video src="https://github.com/user-attachments/assets/29160976-beb7-40a8-8241-f3e35768c247" width="100%" controls></video>
+      <video src="https://github.com/user-attachments/assets/69adf429-1bac-450e-8845-ca39739ce9d6" width="100%" controls></video>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <p><b>📱 Demo Parte 3</b></p>
+      <video src="https://github.com/user-attachments/assets/0e92ac11-2129-41ea-a8cb-54778c4334d2" width="100%" controls></video>
     </td>
   </tr>
 </table>
-
-
 
 
 ---
