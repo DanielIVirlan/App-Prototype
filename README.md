@@ -15,7 +15,7 @@ Ecco l'app in funzione (Xcode 17 / iOS 18+):
 ## 🌟 Funzionalità Principali
 
 ### 1. Marketplace & Logistica Avanzata
-Il cuore dell'app permette di vendere dispositivi scegliendo la modalità di scambio preferita:
+Il cuore dell'app permette di vendere ed acquistare oggetti scegliendo la modalità di scambio preferita:
 - **Safe Zones**: Selezione di zone sicure sulla mappa per lo scambio a mano.
 - **Locker System**: Integrazione con armadietti intelligenti. Il venditore genera un **QR Code**, deposita l'oggetto e l'acquirente lo ritira con un proprio codice dopo il pagamento.
 - **Spedizione**: Opzione per la spedizione privata tramite corriere.
