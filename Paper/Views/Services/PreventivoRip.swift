@@ -49,7 +49,7 @@ struct PreventivoRip: View {
                         VStack(alignment: .leading) {
                             Text("Tipologia*").fontWeight(.semibold).padding(.horizontal)
                             pickerMenu(selection: $tipologiaScelta, options: tipologie)
-                                .onChange(of: tipologiaScelta) { _ in
+                                .onChange(of: tipologiaScelta) {
                                     tipoRiparazioneScelta = "Seleziona tipo"
                                     altraRiparazioneSpecifica = ""
                                 }
@@ -196,7 +196,9 @@ struct PreventivoRip: View {
                     }
                 }
             }
-            .onChange(of: selectedItems) { _ in loadSelectedImages() }
+            .onChange(of: selectedItems) {
+                loadSelectedImages()
+            }
         }
 
     private func loadSelectedImages() {

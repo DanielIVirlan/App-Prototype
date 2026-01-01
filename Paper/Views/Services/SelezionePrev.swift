@@ -32,128 +32,132 @@ struct SelezionePrev: View {
     }
 
     var body: some View {
-        ZStack {
-            Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
-            
-            // --- BINARI DI NAVIGAZIONE INVISIBILI ---
-            NavigationLink(destination: QRCodes(), isActive: $vaiAQRCodes) { EmptyView() }
-            NavigationLink(destination: MainMenu(username: "Admin"), isActive: $vaiAlMenu) { EmptyView() }
-
-            ScrollView {
-                VStack(spacing: 20) {
-                    
-                    // --- LOGO E INTESTAZIONE ---
-                    VStack(spacing: 10) {
-                        Image(systemName: preventivo.logoDitta)
-                            .font(.system(size: 40)).foregroundColor(.blue)
-                            .frame(width: 90, height: 90).background(Color.white)
-                            .clipShape(Circle()).shadow(color: .black.opacity(0.1), radius: 5)
+        NavigationStack {
+            ZStack {
+                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 20) {
                         
-                        Text(preventivo.nomeDitta)
-                            .font(.title3).fontWeight(.bold)
-                    }
-                    .padding(.top)
-
-                    // --- NUOVA SCHEDA POSIZIONE SEDE ---
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                            Image(systemName: "mappin.and.ellipse").foregroundColor(.red)
-                            Text("Sede dell'intervento").fontWeight(.bold)
+                        // --- LOGO E INTESTAZIONE ---
+                        VStack(spacing: 10) {
+                            Image(systemName: preventivo.logoDitta)
+                                .font(.system(size: 40)).foregroundColor(.blue)
+                                .frame(width: 90, height: 90).background(Color.white)
+                                .clipShape(Circle()).shadow(color: .black.opacity(0.1), radius: 5)
+                            
+                            Text(preventivo.nomeDitta)
+                                .font(.title3).fontWeight(.bold)
                         }
-                        Divider()
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("\(preventivo.via), \(preventivo.civico)")
-                                    .font(.headline)
-                                Text("Distanza da te: \(preventivo.distanza, specifier: "%.1f") km")
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                        .padding(.top)
+
+                        // --- NUOVA SCHEDA POSIZIONE SEDE ---
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                Image(systemName: "mappin.and.ellipse").foregroundColor(.red)
+                                Text("Sede dell'intervento").fontWeight(.bold)
                             }
-                            Spacer()
-                            Image(systemName: "arrow.turn.up.right.circle.fill")
-                                .font(.title2)
-                                .foregroundColor(.blue.opacity(0.7))
+                            Divider()
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("\(preventivo.via), \(preventivo.civico)")
+                                        .font(.headline)
+                                    Text("Distanza da te: \(preventivo.distanza, specifier: "%.1f") km")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Image(systemName: "arrow.turn.up.right.circle.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.blue.opacity(0.7))
+                            }
                         }
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
 
-                    // --- SCHEDA RIPARATORE ---
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack { Image(systemName: "person.badge.shield.check.fill").foregroundColor(.blue); Text("Riparatore incaricato").fontWeight(.bold) }
-                        Divider()
-                        Text("Nome: **Marco Rossi**")
-                        Text("Professione: **\(professioneTecnico)**")
-                        Text("Esperienza: **8 anni**")
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(15)
-                    .padding(.horizontal)
+                        // --- SCHEDA RIPARATORE ---
+                        VStack(alignment: .leading, spacing: 12) {
+                            HStack { Image(systemName: "person.badge.shield.check.fill").foregroundColor(.blue); Text("Riparatore incaricato").fontWeight(.bold) }
+                            Divider()
+                            Text("Nome: **Marco Rossi**")
+                            Text("Professione: **\(professioneTecnico)**")
+                            Text("Esperienza: **8 anni**")
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(15)
+                        .padding(.horizontal)
 
-                    // --- SEZIONE CONSEGNA OGGETTO (RIPRISTINATA) ---
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Modalità di consegna oggetto").fontWeight(.semibold).padding(.horizontal)
-                        
-                        Picker("Consegna", selection: $consegnaScelta) {
-                            Text("A mano").tag("Privata/Mano")
-                            Text("A domicilio").tag("Ritiro a domicilio")
-                            Text("Locker").tag("Locker")
-                        }.pickerStyle(.segmented).padding(.horizontal)
-                        
-                        if consegnaScelta == "Locker" {
-                            Button(action: { mostraMappa = true }) {
-                                HStack(spacing: 15) {
-                                    Image(systemName: "cube.box.fill").font(.title2).foregroundColor(.blue)
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(lockerSceltoInfo.isEmpty ? "Scegli Locker sulla mappa" : "Locker Selezionato").font(.subheadline).bold()
-                                        if !lockerSceltoInfo.isEmpty {
-                                            Text(lockerSceltoInfo).font(.caption).foregroundColor(.secondary)
+                        // --- SEZIONE CONSEGNA OGGETTO (RIPRISTINATA) ---
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Modalità di consegna oggetto").fontWeight(.semibold).padding(.horizontal)
+                            
+                            Picker("Consegna", selection: $consegnaScelta) {
+                                Text("A mano").tag("Privata/Mano")
+                                Text("A domicilio").tag("Ritiro a domicilio")
+                                Text("Locker").tag("Locker")
+                            }.pickerStyle(.segmented).padding(.horizontal)
+                            
+                            if consegnaScelta == "Locker" {
+                                Button(action: { mostraMappa = true }) {
+                                    HStack(spacing: 15) {
+                                        Image(systemName: "cube.box.fill").font(.title2).foregroundColor(.blue)
+                                        VStack(alignment: .leading, spacing: 2) {
+                                            Text(lockerSceltoInfo.isEmpty ? "Scegli Locker sulla mappa" : "Locker Selezionato").font(.subheadline).bold()
+                                            if !lockerSceltoInfo.isEmpty {
+                                                Text(lockerSceltoInfo).font(.caption).foregroundColor(.secondary)
+                                            }
                                         }
+                                        Spacer()
+                                        Image(systemName: "chevron.right").foregroundColor(.gray)
                                     }
-                                    Spacer()
-                                    Image(systemName: "chevron.right").foregroundColor(.gray)
+                                    .padding().background(Color.white).cornerRadius(12).shadow(color: .black.opacity(0.05), radius: 5)
                                 }
-                                .padding().background(Color.white).cornerRadius(12).shadow(color: .black.opacity(0.05), radius: 5)
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
+
+                            if consegnaScelta == "Ritiro a domicilio" {
+                                VStack(spacing: 12) {
+                                    TextField("Via / Piazza", text: $via).padding().background(Color.white).cornerRadius(10)
+                                    HStack {
+                                        TextField("Civico", text: $civico).padding().background(Color.white).cornerRadius(10)
+                                        TextField("Interno / Scala", text: $internoScala).padding().background(Color.white).cornerRadius(10)
+                                    }
+                                    TextField("CAP", text: $cap).keyboardType(.numberPad).padding().background(Color.white).cornerRadius(10)
+                                }.padding(.horizontal)
+                            }
                         }
 
-                        if consegnaScelta == "Ritiro a domicilio" {
-                            VStack(spacing: 12) {
-                                TextField("Via / Piazza", text: $via).padding().background(Color.white).cornerRadius(10)
-                                HStack {
-                                    TextField("Civico", text: $civico).padding().background(Color.white).cornerRadius(10)
-                                    TextField("Interno / Scala", text: $internoScala).padding().background(Color.white).cornerRadius(10)
-                                }
-                                TextField("CAP", text: $cap).keyboardType(.numberPad).padding().background(Color.white).cornerRadius(10)
-                            }.padding(.horizontal)
+                        Spacer(minLength: 40)
+                        
+                        // --- TASTO CONTINUA ---
+                        Button(action: {
+                            withAnimation { mostraConferma = true }
+                        }) {
+                            Text("CONTINUA").font(.headline).foregroundColor(.white)
+                                .frame(maxWidth: .infinity).frame(height: 55)
+                                .background(isFormValid ? Color.blue : Color.gray.opacity(0.5)).cornerRadius(15)
                         }
+                        .disabled(!isFormValid).padding(.horizontal)
+                        .padding(.bottom, 20)
                     }
-
-                    Spacer(minLength: 40)
-                    
-                    // --- TASTO CONTINUA ---
-                    Button(action: {
-                        withAnimation { mostraConferma = true }
-                    }) {
-                        Text("CONTINUA").font(.headline).foregroundColor(.white)
-                            .frame(maxWidth: .infinity).frame(height: 55)
-                            .background(isFormValid ? Color.blue : Color.gray.opacity(0.5)).cornerRadius(15)
-                    }
-                    .disabled(!isFormValid).padding(.horizontal)
-                    .padding(.bottom, 20)
                 }
             }
-        }
-        .navigationTitle("Riepilogo Scelta")
-        .fullScreenCover(isPresented: $mostraMappa) {
-            MappaSimulataView(option: .locker, lockerSelezionato: $lockerSceltoInfo)
-        }
-        .fullScreenCover(isPresented: $mostraConferma) {
-            schermataConfermaTemporanea
+            .navigationTitle("Riepilogo Scelta")
+            .fullScreenCover(isPresented: $mostraMappa) {
+                MappaSimulataView(option: .locker, lockerSelezionato: $lockerSceltoInfo)
+            }
+            .fullScreenCover(isPresented: $mostraConferma) {
+                schermataConfermaTemporanea
+            }
+            .navigationDestination(isPresented: $vaiAQRCodes) {
+                QRCodes()
+            }
+            .navigationDestination(isPresented: $vaiAlMenu) {
+                MainMenu(username: "Admin")
+            }
         }
     }
 

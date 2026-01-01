@@ -10,112 +10,114 @@ struct SceltaSmaltimentoView: View {
     @State private var mostraAlert = false
 
     var body: some View {
-        ZStack {
-            Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
-            
-            // Navigazione invisibile per tornare al menu
-            NavigationLink(destination: MainMenu(username: "Admin"), isActive: $tornaAlMenu) { EmptyView() }
-
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(spacing: 25) {
-                        Text("Modalità di smaltimento")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(.black)
-                            .padding(.top, 40)
-                        
-                        // --- SEZIONE OPZIONI (Stile OpzioniVendita) ---
-                        VStack(spacing: 15) {
-                            ForEach(DeliveryOption.allCases, id: \.self) { option in
-                                Button(action: {
-                                    withAnimation(.spring()) {
-                                        opzioneScelta = option
-                                        if option != .locker && option != .safeZone {
-                                            lockerInfo = ""
+        NavigationStack {
+            ZStack {
+                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
+                
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(spacing: 25) {
+                            Text("Modalità di smaltimento")
+                                .font(.system(size: 30, weight: .bold))
+                                .foregroundColor(.black)
+                                .padding(.top, 40)
+                            
+                            // --- SEZIONE OPZIONI (Stile OpzioniVendita) ---
+                            VStack(spacing: 15) {
+                                ForEach(DeliveryOption.allCases, id: \.self) { option in
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            opzioneScelta = option
+                                            if option != .locker && option != .safeZone {
+                                                lockerInfo = ""
+                                            }
                                         }
+                                    }) {
+                                        HStack {
+                                            // Cerchio di selezione a sinistra
+                                            Image(systemName: opzioneScelta == option ? "checkmark.circle.fill" : "circle")
+                                                .resizable()
+                                                .frame(width: 28, height: 28)
+                                                .foregroundColor(opzioneScelta == option ? .blue : .gray)
+                                            
+                                            Text(option.rawValue)
+                                                .font(.title3)
+                                                .fontWeight(.medium)
+                                                .foregroundColor(.black)
+                                            
+                                            Spacer()
+                                        }
+                                        .padding()
+                                        .frame(height: 70)
+                                        .background(Color.white)
+                                        .cornerRadius(15)
+                                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                                        // Bordo blu se selezionato
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 15)
+                                                .stroke(opzioneScelta == option ? Color.blue : Color.clear, lineWidth: 2)
+                                        )
                                     }
-                                }) {
-                                    HStack {
-                                        // Cerchio di selezione a sinistra
-                                        Image(systemName: opzioneScelta == option ? "checkmark.circle.fill" : "circle")
-                                            .resizable()
-                                            .frame(width: 28, height: 28)
-                                            .foregroundColor(opzioneScelta == option ? .blue : .gray)
-                                        
-                                        Text(option.rawValue)
-                                            .font(.title3)
-                                            .fontWeight(.medium)
-                                            .foregroundColor(.black)
-                                        
-                                        Spacer()
-                                    }
-                                    .padding()
-                                    .frame(height: 70)
-                                    .background(Color.white)
-                                    .cornerRadius(15)
-                                    .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
-                                    // Bordo blu se selezionato
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 15)
-                                            .stroke(opzioneScelta == option ? Color.blue : Color.clear, lineWidth: 2)
-                                    )
                                 }
                             }
-                        }
-                        .padding(.horizontal)
+                            .padding(.horizontal)
 
-                        // Bottone Mappa Dinamico
-                        if opzioneScelta == .locker || opzioneScelta == .safeZone {
-                            mapViewButton.transition(.opacity)
+                            // Bottone Mappa Dinamico
+                            if opzioneScelta == .locker || opzioneScelta == .safeZone {
+                                mapViewButton.transition(.opacity)
+                            }
                         }
                     }
-                }
 
-                // --- AREA BOTTONI NATIVI IN BASSO ---
-                VStack(spacing: 15) {
-                    Button(action: {
-                        messaggioConferma = "Oggetto aggiunto con successo all'Archivio Ricordi!"
-                        mostraAlert = true
-                    }) {
-                        HStack {
-                            Image(systemName: "archivebox.fill")
-                            Text("Aggiungi all'Archivio Ricordi")
+                    // --- AREA BOTTONI NATIVI IN BASSO ---
+                    VStack(spacing: 15) {
+                        Button(action: {
+                            messaggioConferma = "Oggetto aggiunto con successo all'Archivio Ricordi!"
+                            mostraAlert = true
+                        }) {
+                            HStack {
+                                Image(systemName: "archivebox.fill")
+                                Text("Aggiungi all'Archivio Ricordi")
+                            }
+                            .font(.headline)
+                            .foregroundColor(.blue)
                         }
-                        .font(.headline)
-                        .foregroundColor(.blue)
-                    }
 
-                    Button(action: {
-                        messaggioConferma = "Richiesta di smaltimento confermata!"
-                        mostraAlert = true
-                    }) {
-                        Text("CONFERMA SMALTIMENTO")
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 60)
-                            .background(isFormValid ? Color.blue : Color.gray.opacity(0.5))
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
+                        Button(action: {
+                            messaggioConferma = "Richiesta di smaltimento confermata!"
+                            mostraAlert = true
+                        }) {
+                            Text("CONFERMA SMALTIMENTO")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .frame(height: 60)
+                                .background(isFormValid ? Color.blue : Color.gray.opacity(0.5))
+                                .cornerRadius(15)
+                                .shadow(radius: 5)
+                        }
+                        .disabled(!isFormValid)
                     }
-                    .disabled(!isFormValid)
-                }
-                .padding(.horizontal)
-                .padding(.bottom, 20)
-                .padding(.top, 10)
-                .background(Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea())
-            }
-        }
-        .navigationTitle("")
-        .alert("Completato", isPresented: $mostraAlert) {
-            Button("OK") {
-                if messaggioConferma == "Richiesta di smaltimento confermata!" {
-                    tornaAlMenu = true
+                    .padding(.horizontal)
+                    .padding(.bottom, 20)
+                    .padding(.top, 10)
+                    .background(Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea())
                 }
             }
-        } message: {
-            if let messaggio = messaggioConferma { Text(messaggio) }
+            .navigationTitle("")
+            .alert("Completato", isPresented: $mostraAlert) {
+                Button("OK") {
+                    if messaggioConferma == "Richiesta di smaltimento confermata!" {
+                        tornaAlMenu = true
+                    }
+                }
+            } message: {
+                if let messaggio = messaggioConferma { Text(messaggio) }
+            }
+            .navigationDestination(isPresented: $tornaAlMenu) {
+                MainMenu(username: "Admin")
+            }
         }
     }
 

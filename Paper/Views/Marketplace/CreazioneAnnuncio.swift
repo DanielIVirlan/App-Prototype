@@ -157,7 +157,7 @@ struct CreazioneAnnuncio: View {
                                 }
                             }
                         }
-                        .onChange(of: selectedItems) { _ in
+                        .onChange(of: selectedItems) {
                             loadSelectedImages()
                         }
                         

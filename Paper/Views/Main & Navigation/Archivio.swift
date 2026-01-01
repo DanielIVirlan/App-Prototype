@@ -8,10 +8,6 @@ struct Ricordo: Identifiable {
     var immagini: [UIImage] // Array per gestire più foto
 }
 
-
-
-
-
 struct Archivio: View {
     @State private var ricordi: [Ricordo] = []
     @State private var mostraAggiungi = false
@@ -75,8 +71,6 @@ struct Archivio: View {
     }
 }
 
-
-
 struct DettaglioRicordoView: View {
     let ricordo: Ricordo
     
@@ -85,17 +79,21 @@ struct DettaglioRicordoView: View {
             VStack(alignment: .leading, spacing: 20) {
                 // Carosello orizzontale di foto
                 if !ricordo.immagini.isEmpty {
-                    TabView {
-                        ForEach(ricordo.immagini, id: \.self) { img in
-                            Image(uiImage: img)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: UIScreen.main.bounds.width)
-                                .clipped()
+                    GeometryReader { proxy in
+                        let width = proxy.size.width
+                        TabView {
+                            ForEach(ricordo.immagini, id: \.self) { img in
+                                Image(uiImage: img)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: width, height: 350)
+                                    .clipped()
+                            }
                         }
+                        .frame(height: 350)
+                        .tabViewStyle(PageTabViewStyle())
                     }
                     .frame(height: 350)
-                    .tabViewStyle(PageTabViewStyle())
                 }
                 
                 VStack(alignment: .leading, spacing: 15) {
@@ -117,8 +115,6 @@ struct DettaglioRicordoView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
-
-
 
 struct FormInserimentoView: View {
     @Environment(\.dismiss) var dismiss
@@ -145,7 +141,9 @@ struct FormInserimentoView: View {
                             Text("Scegli dalla galleria")
                         }
                     }
-                    .onChange(of: selectedItems) { _ in caricaImmagini() }
+                    .onChange(of: selectedItems) {
+                        caricaImmagini()
+                    }
                     
                     if !immaginiSelezionate.isEmpty {
                         ScrollView(.horizontal) {

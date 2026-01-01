@@ -37,37 +37,41 @@ struct OpzioniAcquisto: View {
     }
     
     var body: some View {
-        ZStack {
-            Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
-            
-            // --- NAVIGAZIONE INVISIBILE ---
-            NavigationLink(destination: QRCodes(), isActive: $vaiAQRCodes) { EmptyView() }
-            NavigationLink(destination: MainMenu(username: "Admin"), isActive: $vaiAlMenu) { EmptyView() }
-            
-            VStack(spacing: 0) {
-                ScrollView {
-                    VStack(spacing: 25) {
-                        headerSection
-                        optionsListSection
-                        
-                        if selectedOption == .privateHand {
-                            addressFieldsSection
-                        }
-                        
-                        if selectedOption == .safeZone || selectedOption == .locker {
-                            mapButtonSection
-                        }
-                        
-                        priceSection
-                        Spacer(minLength: 20)
-                    }
-                }
+        NavigationStack {
+            ZStack {
+                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
                 
-                purchaseButtonSection
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(spacing: 25) {
+                            headerSection
+                            optionsListSection
+                            
+                            if selectedOption == .privateHand {
+                                addressFieldsSection
+                            }
+                            
+                            if selectedOption == .safeZone || selectedOption == .locker {
+                                mapButtonSection
+                            }
+                            
+                            priceSection
+                            Spacer(minLength: 20)
+                        }
+                    }
+                    
+                    purchaseButtonSection
+                }
             }
-        }
-        .fullScreenCover(isPresented: $mostraConferma) {
-            schermataConfermaTemporanea
+            .fullScreenCover(isPresented: $mostraConferma) {
+                schermataConfermaTemporanea
+            }
+            .navigationDestination(isPresented: $vaiAQRCodes) {
+                QRCodes()
+            }
+            .navigationDestination(isPresented: $vaiAlMenu) {
+                MainMenu(username: "Admin")
+            }
         }
     }
 }

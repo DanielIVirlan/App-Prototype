@@ -27,40 +27,44 @@ struct OpzioniVendita: View {
     }
     
     var body: some View {
-        ZStack {
-            Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
-            
-            // --- NAVIGAZIONE INVISIBILE ---
-            NavigationLink(destination: QRCodes(), isActive: $vaiAQRCodes) { EmptyView() }
-            NavigationLink(destination: MainMenu(username: "Admin"), isActive: $vaiAlMenu) { EmptyView() }
-
-            VStack(spacing: 0) {
-                ScrollView {
-                    deliveryOptionsSection
-                }
+        NavigationStack {
+            ZStack {
+                Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea()
                 
-                VStack {
-                    Button(action: {
-                        withAnimation { mostraConfermaQR = true }
-                    }) {
-                        Text("Pubblica Annuncio")
-                            .font(.title3).fontWeight(.bold).foregroundColor(.white)
-                            .frame(maxWidth: .infinity).frame(height: 60)
-                            .background(isFormValid ? Color.blue : Color.gray.opacity(0.5))
-                            .cornerRadius(15)
-                            .shadow(radius: 5)
+                VStack(spacing: 0) {
+                    ScrollView {
+                        deliveryOptionsSection
                     }
-                    .disabled(!isFormValid)
-                    .padding(.horizontal)
-                    .padding(.bottom, 20)
-                    .padding(.top, 10)
+                    
+                    VStack {
+                        Button(action: {
+                            withAnimation { mostraConfermaQR = true }
+                        }) {
+                            Text("Pubblica Annuncio")
+                                .font(.title3).fontWeight(.bold).foregroundColor(.white)
+                                .frame(maxWidth: .infinity).frame(height: 60)
+                                .background(isFormValid ? Color.blue : Color.gray.opacity(0.5))
+                                .cornerRadius(15)
+                                .shadow(radius: 5)
+                        }
+                        .disabled(!isFormValid)
+                        .padding(.horizontal)
+                        .padding(.bottom, 20)
+                        .padding(.top, 10)
+                    }
+                    .background(Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea(.all, edges: .bottom))
                 }
-                .background(Color(red: 0.94, green: 0.95, blue: 0.97).ignoresSafeArea(.all, edges: .bottom))
             }
-        }
-        .navigationTitle("")
-        .fullScreenCover(isPresented: $mostraConfermaQR) {
-            schermataConfermaTemporanea
+            .navigationTitle("")
+            .fullScreenCover(isPresented: $mostraConfermaQR) {
+                schermataConfermaTemporanea
+            }
+            .navigationDestination(isPresented: $vaiAQRCodes) {
+                QRCodes()
+            }
+            .navigationDestination(isPresented: $vaiAlMenu) {
+                MainMenu(username: "Admin")
+            }
         }
     }
 
