@@ -15,10 +15,11 @@ Ecco l'app in funzione (Xcode 17 / iOS 18+):
     </td>
     <td width="50%" align="center" valign="top">
       <p><b>📱 Demo Parte 2</b></p>
-      <video src="https://github.com/user-attachments/assets/bb8308ef-a6a5-4390-9a8d-fc39c105ba8f" width="100%" controls></video>
+      <video src="https://github.com/user-attachments/assets/29160976-beb7-40a8-8241-f3e35768c247" width="100%" controls></video>
     </td>
   </tr>
 </table>
+
 
 
 
